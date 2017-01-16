@@ -22,7 +22,12 @@ void usage(int status) {
               << "-h" << "\t\t\tshow this help information" << std::endl
               << "-s sudoku" << "\t\tsolve the provided Sudoku" << std::endl
               << "-f filepath" << "\t\tsolve the Sudokus in the provided file (file must contain one Sudoku per line)"
-              << std::endl;
+              << std::endl
+              << std::endl
+              << "Examples:" << std::endl
+              << PROGRAM_NAME << " -s 003020600900305001001806400008102900700000008006708200002609500800203009005010300"
+              << std::endl
+              << PROGRAM_NAME << " -f ./sudokus.txt" << std::endl;
     exit(status);
 }
 
