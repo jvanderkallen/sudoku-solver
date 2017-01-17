@@ -3,8 +3,7 @@
 #include "BacktrackingSolver.h"
 
 bool BacktrackingSolver::isCandidate(int row, int column, int value) {
-    int block = ((row / 3) * 3) + (column / 3);
-    return !rowContains(row, value) && !columnContains(column, value) && !blockContains(block, value);
+    return !rowContains(row, value) && !columnContains(column, value) && !blockContains(row, column, value);
 }
 
 bool BacktrackingSolver::rowContains(int rowIndex, int value) {
@@ -17,8 +16,8 @@ bool BacktrackingSolver::columnContains(int columnIndex, int value) {
     return std::find(column.begin(), column.end(), value) != column.end();
 }
 
-bool BacktrackingSolver::blockContains(int blockIndex, int value) {
-    std::vector<int> block = puzzle->getBlock(blockIndex);
+bool BacktrackingSolver::blockContains(int rowIndex, int columnIndex, int value) {
+    std::vector<int> block = puzzle->getBlock(rowIndex, columnIndex);
     return std::find(block.begin(), block.end(), value) != block.end();
 }
 

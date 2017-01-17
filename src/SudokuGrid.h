@@ -17,6 +17,7 @@ public:
     std::vector<int> getRow(int row);
     std::vector<int> getColumn(int column);
     std::vector<int> getBlock(int block);
+    std::vector<int> getBlock(int row, int column);
 
     bool cellIsEmpty(int row, int column);
     bool cellIsFilledIn(int row, int column);
@@ -30,6 +31,10 @@ private:
 
     void validateRowIndex(int row) const;
     void validateColumnIndex(int column) const;
+
+    int blockIndex(int row, int column);
+
+    bool isValid();
 };
 
 

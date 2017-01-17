@@ -6,13 +6,17 @@
 SudokuGrid::SudokuGrid(const char *puzzle) {
     size_t length = strlen(puzzle);
 
-    if (length != SIZE*SIZE) {
+    if (length != SIZE * SIZE) {
         throw std::invalid_argument("Sudoku puzzle must consist of 81 values");
     }
 
     for (int i = 0; i < SIZE * SIZE; i++) {
         int value = puzzle[i] - '0';
         this->setCell(i / SIZE, i % SIZE, value);
+    }
+
+    if (!isValid()) {
+        throw std::invalid_argument("The provided puzzle is invalid");
     }
 }
 
@@ -115,11 +119,47 @@ std::vector<int> SudokuGrid::getBlock(int block) {
     return result;
 }
 
+std::vector<int> SudokuGrid::getBlock(int row, int column) {
+    return getBlock(blockIndex(row, column));
+}
+
 bool SudokuGrid::cellIsEmpty(int row, int column) {
     return getCell(row, column) == EMPTY_CELL;
 }
 
 bool SudokuGrid::cellIsFilledIn(int row, int column) {
     return getCell(row, column) != EMPTY_CELL;
+}
+
+int SudokuGrid::blockIndex(int row, int column) {
+    int index = ((row / 3) * 3) + (column / 3);
+    return index;
+}
+
+bool SudokuGrid::isValid() {
+    bool rowValueUsed[SIZE][SIZE];
+    bool columnValueUsed[SIZE][SIZE];
+    bool blockValueUsed[SIZE][SIZE];
+
+    memset(rowValueUsed, false, sizeof(rowValueUsed));
+    memset(columnValueUsed, false, sizeof(columnValueUsed));
+    memset(blockValueUsed, false, sizeof(blockValueUsed));
+
+    for (int row = 0; row < SIZE; row++) {
+        for (int column = 0; column < SIZE; column++) {
+            if (cellIsFilledIn(row, column)) {
+                int value = getCell(row, column) - 1;
+                int block = blockIndex(row, column);
+
+                if (rowValueUsed[row][value] || columnValueUsed[column][value] || blockValueUsed[block][value]) {
+                    return false;
+                }
+
+                rowValueUsed[row][value] = columnValueUsed[column][value] = blockValueUsed[block][value] = true;
+            }
+        }
+    }
+
+    return true;
 }
 

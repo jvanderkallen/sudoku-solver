@@ -17,8 +17,8 @@ private:
     bool isCandidate(int row, int column, int value);
 
     bool columnContains(int columnIndex, int value);
-    bool rowContains(int column, int value);
-    bool blockContains(int block, int value);
+    bool rowContains(int rowIndex, int value);
+    bool blockContains(int rowIndex, int columnIndex, int value);
 
     bool solve(int row, int column);
 };
